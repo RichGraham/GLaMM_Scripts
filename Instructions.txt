@@ -1,0 +1,10 @@
+====Building====
+cd  ~/source/GLaMM_Scripts
+./makeAll.sh icc <—compiler name (optional) defaults to gcc
+
+====Setting up runs====
+
+==== Analysing results ====
+
+* dampFn_glm.sh: Reads input and output files and constructs a damping function
+
