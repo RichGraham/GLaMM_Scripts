@@ -14,16 +14,35 @@ fi
 ListFile=$1
 LineNumber=$2
 
+subfilename=${ListFile%%.*}
+outputFile=$(echo "$subfilename".dat)
+if [ -f $outputFile ] ; then
+    rm $outputFile
+fi
+
 
 arr1=( $( cut -d' ' -f1 $ListFile ) )
 arr2=( $( cut -d' ' -f2 $ListFile ) )
 
-for i in $(seq 1 $(expr ${#arr1[@]} - 1))
+for i in $(seq 0 $(expr ${#arr1[@]} - 1))
 do
     FileName=${arr1[$i]}
     Strain=${arr2[$i]}
     echo Input file: $FileName $Strain
-    sed -n 3,3p 2nd40$FileName.dat 
+    Line=$(sed -n "$LineNumber","$LineNumber"p $FileName)
+    #echo $Line
+    Damping=$(awk  '{print $2}' <<< "$Line")
+    Damping=`echo ${Damping} | sed -e 's/[eE]+*/\\*10\\^/'`
+    Damping=$(echo $Damping | bc -l )
+    Time=$(awk  '{print $1}' <<< "$Line")
+    echo $FileName
+    echo $Time
 
+        if (( $i == 0 )); then
+   	    BaseLine=$Damping
+	fi
+	ans=$(echo $Damping / $BaseLine | bc -l )
+	echo $Strain $ans >> $outputFile
+	echo ""
 done
 
