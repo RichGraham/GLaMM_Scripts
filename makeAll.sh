@@ -1,6 +1,7 @@
 #!/bin/sh
 #Copy the shell scripts to a folder in the path
 ln -sf ~/source/GLaMM_Scripts/dampingFn/dampFn_glm.sh  ~/bin
+ln -sf ~/source/GLaMM_Scripts/dampingFn/sub_glm.sh  ~/bin
 
 #Check correct numnber of command line arguments
 if (( $# > 1 )); then
